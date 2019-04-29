@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home</title>
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='home.css')}}">
+	<style>
+
+</style>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="{{ url_for('static', filename='jquery.js') }}">\x3C/script>')</script>
+</head>
+
+<body>
+	<h1>Highlighter App</h1>
+	<div class="card" style="width: 50%; margin-left: 25%; margin-top: 5%; ">
+	  <div class="container" style="background-color: white; height: auto">
+	  	<div class="grid-container">
+	  		<div class="item1">
+	  			<h2 style="margin-left: 2em;"> Highlighter</h2>
+	  		</div>
+		  	<div class="grid-item left-half container" >
+
+
+
+			    <form style="margin-bottom: 0px;" id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+
+			    	<h4 ><b>Choose words to highlight</b></h4> 
+			      		<input checked="true" type="checkbox" name="smr" value="shall/must/required">shall/must/required<br><br>
+                        <input style="margin-left: 3px;" type="text" name="words"> (seperated by '/')<br>
+
+				    <h4 ><b>Choose a directory:</b></h4> 
+				    	<input id="filesid" type="file" name="file" webkitdirectory mozdirectory><br><br>
+
+			    </form>
+                <button style="margin-left: 3em; margin-bottom: 2em;" onclick="uploadDoc()"> Upload</button>
+                
+                <br>
+                <div id="progress" style="margin: 2em; margin-top: 0px;"></div>
+
+		    </div>
+		    <div class="grid-item right-half">
+		    	<h3 style="margin-left: 2em"><b>How to use</b></h3> 
+		    	<p style="margin: 2em; padding: 1em; background-color: white; border-radius: 25px; border: 2px solid #bebebe;" >First choose the words you would like to highlight. By checking the box shall/must/required, those words will be added to highlight. Any additional words/phrases you would like to use may be entered in the text feild. seperate words/phrases with '/'. eg. Act/you need to/regulation</p>
+		    	<p style="margin: 2em; padding: 1em; background-color: white; border-radius: 25px; border: 2px solid #bebebe;">Next choose a directory (folder) you would like to have highlighted. only the .docx files in the directory will be highlighted.</p>
+		    </div>
+		</div>
+
+
+
+	  </div>
+	</div>
+</body>
+<script>
+
+	
+	function uploadDoc() {
+		console.log("uploadDoc")
+		var files = document.getElementById("filesid").value;
+		progressDiv = document.getElementById("progress");
+
+
+		var formData = new FormData(document.querySelector('form'))
+		var req = new XMLHttpRequest();
+     	req.open("POST", '{{ url_for('upload') }}', true);
+     	req.responseType = "blob";
+
+     	//display message for processing request
+     	if(req.readyState==1){
+     		progressDiv.innerHTML += "Processing Request... <br/>(this could take a few minutes)<br/><br/>"
+     	}
+	
+     	if((req.readyState=4) && (req.status == 500)){
+     		progressDiv.innerHTML += "Status 4: internal server error.<br/><br/>"     		
+     	}
+
+
+		req.onload = function (event) {
+			if(req.status != 200){
+     			progressDiv.innerHTML += "Error processing request. please read the instructions and try again.<br/><br/>"     		
+     		}
+     		else {
+				console.log(req.status)
+		 		progressDiv.innerHTML += "Files downloaded Successfully!<br/><br/>"
+		        var blob = req.response;
+		        var fileName = req.getResponseHeader("fileName") //if you have the fileName header available
+		        var link=document.createElement('a');
+		        link.href=window.URL.createObjectURL(blob);
+		        link.download=fileName;
+		        link.click();
+     		}
+
+     	};
+
+		req.send(formData); 
+	}
+
+	function myFunction() {
+	  document.getElementById("demo").innerHTML = "Hello World";
+	}
+
+	/*function uploadDoc() {
+	  var xhttp = new XMLHttpRequest();
+	  xhttp.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+	      document.getElementById("demo").innerHTML =
+	      this.responseText;
+	    }
+	  };
+	  xhttp.open("POST", "ajax_info.txt", true);
+	  xhttp.send();
+	}*/
+</script>
+</html>

@@ -1,0 +1,2 @@
+1 - [ shall: 16, must: 11, required: 31 ] - Electricity Act, 1998 - OReg16201 - 010162_eV006.docx
+2 - [ shall: 1, must: 1, required: 1 ] - Fairness In Procurement Act, 2018 18f04_e.docx

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home</title>
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='home.css')}}">
+	<style>
+
+</style>
+<!-- <script type="text/javascript">
+	var iptEls = document.querySelectorAll('input');
+	[].forEach.call(inps, function(iptEl) {
+	    iptEl.onchange = function(e) {
+	        console.log(this.files);
+	    };
+	});
+</script> -->
+</head>
+
+<body>
+	<h1>Highlighter App</h1>
+	<div class="card" style="width: 50%; margin-left: 25%; margin-top: 5%; ">
+	  <div class="container" style="background-color: white; height: 450px">
+	    <h4><b>Directory:</b></h4> 
+
+	    <form id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+	    	<input type="file" name="file" webkitdirectory mozdirectory>
+	    	<input type="submit" value="send">
+	    	
+	    </form>
+
+	    <br>
+	    <hr>
+
+<!-- 	    <div id="uploads"></div>
+	    <div class="dropzone" id="dropzone"> Drop files here to highlight</div>
+
+	    <script type="text/javascript">
+	    	( function() {
+	    		console.log('run');
+	    		var dropzone = document.getElementById('dropzone');
+
+	    		var upload = function(files) {
+	    			var formData = new FormData(),
+	    				xhr = new XMLHttpRequest(),
+	    			 	x;
+
+	    				for(x=0; x<files.length; x=x+1){
+	    					console.log(files[x])
+	    					formData.append('file', files[x]);
+	    				}
+
+	    				xhr.open('post', '{{ url_for('upload') }}');
+	    				xhr.send(formData); 
+	    		}
+
+	    		dropzone.ondrop = function(e) {
+	    			e.preventDefault();
+	    			this.className = 'dropzone ';
+	    			upload(e.dataTransfer.files)
+	    		}
+	    		dropzone.ondragover = function() {
+	    			this.className = 'dropzone dragover';
+	    			return false;
+	    		}
+	    		dropzone.ondragleave = function() {
+	    			this.className = 'dropzone ';
+	    			return false;
+	    		}
+	    	}())
+
+	    </script> -->
+
+	  </div>
+	</div>
+</body>
+</html>
